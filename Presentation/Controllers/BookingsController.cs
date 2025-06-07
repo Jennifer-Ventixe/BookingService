@@ -10,7 +10,7 @@ public class BookingsController(IBookingService bookingService) : ControllerBase
 {
     private readonly IBookingService _bookingService = bookingService;
 
-    [HttpGet]
+    [HttpPost]
     public async Task<IActionResult> Create(CreateBookingRequest request)
     {
        if (!ModelState.IsValid)
