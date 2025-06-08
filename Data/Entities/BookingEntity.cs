@@ -17,4 +17,11 @@ public class BookingEntity
     [ForeignKey(nameof(BookingOwner))]
     public string? BookingOwnerId { get; set; }
     public BookingOwnerEntity? BookingOwner { get; set; }
+
+    [ForeignKey(nameof(BookingAddress))]
+    public string? BookingAddressId { get; set; }
+    public BookingAddressEntity? BookingAddress { get; set; }
+
+
+
 }

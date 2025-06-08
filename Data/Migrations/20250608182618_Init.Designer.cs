@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250604231721_Init")]
+    [Migration("20250608182618_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("BookingAddressId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
@@ -66,6 +69,8 @@ namespace Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookingAddressId");
 
                     b.HasIndex("BookingOwnerId");
 
@@ -101,9 +106,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.BookingEntity", b =>
                 {
+                    b.HasOne("Data.Entities.BookingAddressEntity", "BookingAddress")
+                        .WithMany()
+                        .HasForeignKey("BookingAddressId");
+
                     b.HasOne("Data.Entities.BookingOwnerEntity", "BookingOwner")
                         .WithMany()
                         .HasForeignKey("BookingOwnerId");
+
+                    b.Navigation("BookingAddress");
 
                     b.Navigation("BookingOwner");
                 });

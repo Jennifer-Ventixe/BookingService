@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class In : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,11 +53,17 @@ namespace Data.Migrations
                     EventId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TicketQuantity = table.Column<int>(type: "int", nullable: false),
                     BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BookingOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    BookingOwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    BookingAddressId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bookings_BookingAddresses_BookingAddressId",
+                        column: x => x.BookingAddressId,
+                        principalTable: "BookingAddresses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Bookings_BookingOwners_BookingOwnerId",
                         column: x => x.BookingOwnerId,
@@ -68,6 +74,11 @@ namespace Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_BookingOwners_BookingAddressId",
                 table: "BookingOwners",
+                column: "BookingAddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_BookingAddressId",
+                table: "Bookings",
                 column: "BookingAddressId");
 
             migrationBuilder.CreateIndex(
